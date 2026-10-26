@@ -45,4 +45,14 @@ describe('renderCommitActivityCard', () => {
     expect(svg).toContain('Commit Activity Matrix');
     expect(svg).toContain('Mon');
   });
+
+  it('should keep every grid cell inside the card with a right margin', () => {
+    const svg = renderCommitActivityCard({ username: 'octocat' });
+    const viewBoxWidth = Number(/viewBox="0 0 (\d+) /.exec(svg)?.[1]);
+    const cells = [...svg.matchAll(/<rect x="([\d.]+)" y="[\d.]+" width="([\d.]+)" height="12"/g)];
+
+    expect(cells).toHaveLength(7 * 24);
+    const rightEdge = Math.max(...cells.map((c) => Number(c[1]) + Number(c[2])));
+    expect(rightEdge).toBeLessThanOrEqual(viewBoxWidth - 10);
+  });
 });
