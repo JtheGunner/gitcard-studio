@@ -121,6 +121,34 @@ describe('github.ts integration tests (Mocked)', () => {
     expect(langs[1].percentage).toBe(40);
   });
 
+  it('should group the smallest languages under an English "Other" entry', async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => [{ name: 'r1', fork: false }]
+    });
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => []
+    });
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        A: 70000,
+        B: 60000,
+        C: 50000,
+        D: 40000,
+        E: 30000,
+        F: 20000,
+        G: 10000
+      })
+    });
+
+    const langs = await githubRepo.getUserLanguages('many-langs-user');
+
+    expect(langs).toHaveLength(7);
+    expect(langs[6].name).toBe('Other');
+  });
+
   it('should ignore prototype pollution keys in language stats', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,

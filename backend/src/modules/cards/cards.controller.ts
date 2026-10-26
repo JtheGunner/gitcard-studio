@@ -119,7 +119,7 @@ export class CardsController {
             ? query.locale
             : typeof query.lang === 'string'
               ? query.lang
-              : 'es'
+              : 'en'
       };
 
       const svg = await executeUseCase(username, theme as string, overrides, hitContext);
@@ -358,10 +358,13 @@ export class CardsController {
       ip,
       res,
       'TodayStatus',
-      async (u, t, o) => {
+      async (u, t, o, h) => {
         const activity = await this.commitActivityCardUseCase.getActivityData(u);
         const commitsToday = activity.commitsToday ?? 0;
-        return renderTodayStatusBadge({ username: u, commitsToday }, { theme: t, overrides: o });
+        return renderTodayStatusBadge(
+          { username: u, commitsToday },
+          { theme: t, overrides: o, locale: h?.locale }
+        );
       }
     );
   }
@@ -382,7 +385,7 @@ export class CardsController {
       ip,
       res,
       'TimelineMatrix',
-      async (u, t, o) => {
+      async (u, t, o, h) => {
         const activity = await this.commitActivityCardUseCase.getActivityData(u);
         let night = 0;
         let morning = 0;
@@ -406,7 +409,7 @@ export class CardsController {
         ];
         return renderTimelineMatrixCard(
           { username: u, periods },
-          { theme: t, overrides: o, cardWidth }
+          { theme: t, overrides: o, cardWidth, locale: h?.locale }
         );
       }
     );

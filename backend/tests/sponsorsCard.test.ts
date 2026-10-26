@@ -57,7 +57,7 @@ const emptySponsorsStats: SponsorStats = {
 
 describe('sponsorsCard presenter', () => {
   it('should render valid SVG with correct structure and stats', async () => {
-    const svg = await renderSponsorsCard(mockSponsorsStats, 'dark');
+    const svg = await renderSponsorsCard(mockSponsorsStats, 'dark', { locale: 'es' });
     expect(svg).toContain('<svg');
     expect(svg).toContain('</svg>');
     expect(svg).toContain('Creative Code');
@@ -73,7 +73,7 @@ describe('sponsorsCard presenter', () => {
   });
 
   it('should render graceful fallback when there are no sponsors', async () => {
-    const svg = await renderSponsorsCard(emptySponsorsStats, 'dark');
+    const svg = await renderSponsorsCard(emptySponsorsStats, 'dark', { locale: 'es' });
     expect(svg).toContain('<svg');
     expect(svg).toContain('Aún sin sponsors públicos');
     expect(svg).toContain('https://github.com/sponsors/nosponsorsuser');

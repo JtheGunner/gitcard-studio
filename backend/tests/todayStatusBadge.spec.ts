@@ -3,7 +3,10 @@ import { renderTodayStatusBadge } from '@/adapters/presenters/todayStatusBadge.p
 
 describe('Today Status Badge Presenter', () => {
   it('should render active state SVG when commitsToday > 0', () => {
-    const svg = renderTodayStatusBadge({ username: 'octocat', commitsToday: 5 }, { theme: 'dark' });
+    const svg = renderTodayStatusBadge(
+      { username: 'octocat', commitsToday: 5 },
+      { theme: 'dark', locale: 'es' }
+    );
     expect(svg).toContain('<svg');
     expect(svg).toContain('Activo hoy');
     expect(svg).toContain('5 commits');
@@ -11,9 +14,17 @@ describe('Today Status Badge Presenter', () => {
   });
 
   it('should render resting state SVG when commitsToday is 0', () => {
-    const svg = renderTodayStatusBadge({ username: 'octocat', commitsToday: 0 }, { theme: 'neon' });
+    const svg = renderTodayStatusBadge(
+      { username: 'octocat', commitsToday: 0 },
+      { theme: 'neon', locale: 'es' }
+    );
     expect(svg).toContain('<svg');
     expect(svg).toContain('Descansando hoy');
     expect(svg).toContain('💤');
+  });
+
+  it('should render in English when no locale is given', () => {
+    const svg = renderTodayStatusBadge({ username: 'octocat', commitsToday: 0 }, { theme: 'dark' });
+    expect(svg).not.toContain('Descansando hoy');
   });
 });

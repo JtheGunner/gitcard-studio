@@ -3,7 +3,7 @@ import { renderCommitActivityCard } from '../src/adapters/presenters/commitActiv
 
 describe('renderCommitActivityCard', () => {
   it('should render a valid SVG string for commit activity card', () => {
-    const svg = renderCommitActivityCard({ username: 'testuser' }, { theme: 'dark' });
+    const svg = renderCommitActivityCard({ username: 'testuser' }, { theme: 'dark', locale: 'es' });
     expect(svg).toContain('<svg');
     expect(svg).toContain('Matriz de Hábitos de Commit');
     expect(svg).toContain('github.com/testuser');
@@ -15,7 +15,10 @@ describe('renderCommitActivityCard', () => {
     matrix[0][20] = 10;
     matrix[1][22] = 15;
 
-    const svg = renderCommitActivityCard({ username: 'nightowl', hourlyMatrix: matrix });
+    const svg = renderCommitActivityCard(
+      { username: 'nightowl', hourlyMatrix: matrix },
+      { locale: 'es' }
+    );
     expect(svg).toContain('🦉 Búho Nocturno');
   });
 
@@ -24,8 +27,17 @@ describe('renderCommitActivityCard', () => {
     matrix[0][9] = 20;
     matrix[2][14] = 15;
 
-    const svg = renderCommitActivityCard({ username: 'earlybird', hourlyMatrix: matrix });
+    const svg = renderCommitActivityCard(
+      { username: 'earlybird', hourlyMatrix: matrix },
+      { locale: 'es' }
+    );
     expect(svg).toContain('🌅 Madrugador');
+  });
+
+  it('should render in English when no locale is given', () => {
+    const svg = renderCommitActivityCard({ username: 'octocat' });
+    expect(svg).toContain('Commit Activity Matrix');
+    expect(svg).not.toContain('Matriz de Hábitos de Commit');
   });
 
   it('should support English locale', () => {

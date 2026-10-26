@@ -23,7 +23,7 @@ export function renderTimelineMatrixCard(
   options: TimelineMatrixCardOptions = {}
 ): string {
   const theme: Theme = getTheme(options.theme, options.overrides);
-  const isEn = options.locale === 'en';
+  const isEn = options.locale !== 'es';
   const username = escapeXml(data.username || 'octocat');
   const cardWidth = options.cardWidth === '100%' ? '100%' : '495';
   const viewBoxWidth = 495;
