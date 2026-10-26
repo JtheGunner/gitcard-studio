@@ -11,6 +11,11 @@ describe('Frontend i18n Utility', () => {
     });
   });
 
+  it('should default to English when no locale is given or the locale is unsupported', () => {
+    expect(t('btn_generate')).toBe(t('btn_generate', 'en'));
+    expect(t('btn_generate', 'xx')).toBe(t('btn_generate', 'en'));
+  });
+
   it('should return correct translation for supported locales', () => {
     expect(t('btn_generate', 'es')).toBe('Generar Tarjetas');
     expect(t('btn_generate', 'en')).toBe('Generate Cards');
@@ -26,9 +31,6 @@ describe('Frontend i18n Utility', () => {
     expect(t('export_data_btn', 'pt')).toBe('Baixar meus Dados (JSON)');
   });
 
-  it('should fallback to ES if unknown locale is provided', () => {
-    expect(t('btn_generate', 'unknown' as any)).toBe('Generar Tarjetas');
-  });
 
   it('should interpolate parameters correctly', () => {
     // Testing param substitution logic

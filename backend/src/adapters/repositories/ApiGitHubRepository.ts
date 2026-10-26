@@ -711,7 +711,7 @@ export class ApiGitHubRepository implements IGitHubRepository {
     }
 
     if (!bestRepo) {
-      throw new Error('No se encontraron repositorios (no forks) para este usuario.');
+      throw new Error('No repositories (non-forks) were found for this user.');
     }
     return bestRepo;
   }
@@ -741,7 +741,7 @@ export class ApiGitHubRepository implements IGitHubRepository {
 
     const name = repoData.name;
     const owner = repoData.owner.login;
-    const description = repoData.description || 'Sin descripción disponible.';
+    const description = repoData.description || 'No description available.';
     const stars = repoData.stargazers_count || 0;
     const forks = repoData.forks_count || 0;
     const language = repoData.language || 'Markdown';
@@ -1055,7 +1055,7 @@ export class ApiGitHubRepository implements IGitHubRepository {
       return {
         name: r.name,
         owner: r.owner?.login ?? username,
-        description: r.description ?? 'Sin descripción disponible.',
+        description: r.description ?? 'No description available.',
         stars: r.stargazerCount ?? 0,
         forks: r.forkCount ?? 0,
         language: langName,
@@ -1101,7 +1101,7 @@ export class ApiGitHubRepository implements IGitHubRepository {
       return {
         name: repo.name,
         owner: repo.owner.login,
-        description: repo.description || 'Sin descripción disponible.',
+        description: repo.description || 'No description available.',
         stars: repo.stargazers_count || 0,
         forks: repo.forks_count || 0,
         language,

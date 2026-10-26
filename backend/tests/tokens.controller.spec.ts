@@ -176,7 +176,7 @@ describe('TokensController', () => {
 
       const result = await controller.purge(dto);
 
-      expect(result.message).toContain('eliminados');
+      expect(result.message).toContain('permanently deleted');
       expect(mockPurgeUseCase.execute).toHaveBeenCalledWith('testuser');
 
       vi.unstubAllGlobals();

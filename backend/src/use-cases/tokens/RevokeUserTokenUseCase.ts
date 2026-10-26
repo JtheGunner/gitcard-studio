@@ -20,7 +20,7 @@ export class RevokeUserTokenUseCase {
     });
 
     if (!profileRes.ok) {
-      throw new Error('El token provisto no es válido. No se puede verificar tu identidad.');
+      throw new Error('The provided token is not valid. Your identity cannot be verified.');
     }
 
     const githubUser = await profileRes.json();
@@ -29,14 +29,14 @@ export class RevokeUserTokenUseCase {
     // 2. Enforce ownership: only the owner of the GitHub username can delete its token
     if (tokenOwner.toLowerCase() !== username.toLowerCase()) {
       throw new Error(
-        `Acceso denegado. El token proporcionado pertenece al usuario de GitHub '${tokenOwner}', pero estás intentando revocar el token de '${username}'.`
+        `Access denied. The provided token belongs to the GitHub user '${tokenOwner}', but you are trying to revoke the token of '${username}'.`
       );
     }
 
     // 3. Check if token exists
     const existingToken = await this.tokenRepo.getToken(username);
     if (!existingToken) {
-      throw new Error('No se encontró ningún token registrado para este usuario.');
+      throw new Error('No registered token was found for this user.');
     }
 
     // 4. Delete from database
@@ -46,7 +46,7 @@ export class RevokeUserTokenUseCase {
     await this.githubRepo.clearCache(username);
 
     return {
-      message: 'Token revocado y eliminado exitosamente de nuestros servidores.'
+      message: 'Token revoked and deleted successfully from our servers.'
     };
   }
 }

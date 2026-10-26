@@ -43,7 +43,7 @@ export class AuthController {
     const clientId = process.env.GITHUB_CLIENT_ID;
     if (!clientId || clientId.trim() === '') {
       throw new BadRequestException(
-        'La aplicación de GitHub no está configurada en el servidor (GITHUB_CLIENT_ID). Asegúrate de configurar GITHUB_CLIENT_ID en tu archivo .env'
+        'The GitHub app is not configured on the server (GITHUB_CLIENT_ID). Make sure to set GITHUB_CLIENT_ID in your .env file.'
       );
     }
 

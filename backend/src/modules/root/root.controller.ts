@@ -113,11 +113,9 @@ export class RootController {
     const safeImageUrl = escapeXml(
       `${baseUrl}/api/stats?username=${encodedUser}&theme=${encodedTheme}`
     );
-    const safeTitle = escapeXml(
-      `Tarjetas de estadísticas para @${targetUsername} | GitCard Studio`
-    );
+    const safeTitle = escapeXml(`Stats cards for @${targetUsername} | GitCard Studio`);
     const safeDescription = escapeXml(
-      `Mira las estadísticas, lenguajes más usados y trofeos de GitHub para @${targetUsername} generados dinámicamente.`
+      `See the GitHub stats, most used languages and trophies for @${targetUsername}, generated dynamically.`
     );
 
     return html

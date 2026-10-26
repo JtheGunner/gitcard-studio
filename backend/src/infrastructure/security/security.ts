@@ -57,7 +57,7 @@ export function encryptToken(token: string): { encryptedToken: string; iv: strin
 export function decryptToken(encryptedText: string, ivHex: string): string {
   const [encrypted, authTagHex] = encryptedText.split(':');
   if (!encrypted || !authTagHex) {
-    throw new Error('Formato de token cifrado inválido.');
+    throw new Error('Invalid encrypted token format.');
   }
 
   const iv = Buffer.from(ivHex, 'hex');
@@ -104,7 +104,7 @@ export async function validateTokenScopes(
 
     if (!profileRes.ok) {
       if (profileRes.status === 401) {
-        return { valid: false, reason: 'El token proporcionado no es válido o ha expirado.' };
+        return { valid: false, reason: 'The provided token is not valid or has expired.' };
       }
       return {
         valid: false,
@@ -141,7 +141,7 @@ export async function validateTokenScopes(
         return {
           valid: false,
           reason:
-            'El token provisto tiene permisos de escritura o administración peligrosos. Por favor, crea un token con los permisos mínimos requeridos (solo lectura de perfil).'
+            'The provided token has dangerous write or admin permissions. Please create a token with the minimum required permissions (read-only profile access).'
         };
       }
     }
@@ -165,7 +165,7 @@ export async function validateTokenScopes(
       return {
         valid: false,
         reason:
-          'Se detectaron permisos de creación/escritura de repositorios en el token. Por favor, asegúrate de que el token sea de solo lectura.'
+          'Repository create or write permissions were detected on the token. Please make sure the token is read-only.'
       };
     }
 
@@ -174,7 +174,7 @@ export async function validateTokenScopes(
     logger.error('Error validating token scopes', { error });
     return {
       valid: false,
-      reason: 'Error al comunicarse con la API de GitHub durante la validación.'
+      reason: 'Failed to reach the GitHub API during validation.'
     };
   }
 }

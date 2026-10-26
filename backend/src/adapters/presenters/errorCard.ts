@@ -7,9 +7,68 @@ export interface ErrorCardOptions {
   locale?: string;
 }
 
+type ErrorTexts = {
+  notFound: { title: string; body: (user: string) => string; hint: string };
+  rateLimit: { title: string; body: string; hint: string };
+  invalid: { title: string; hint: string };
+  fallback: { title: string; body: string; hint: string };
+};
+
+const ERROR_TEXTS: Record<'en' | 'es', ErrorTexts> = {
+  en: {
+    notFound: {
+      title: 'User not found',
+      body: (user) =>
+        user
+          ? `The user ${user} was not found on GitHub.`
+          : 'The specified GitHub user does not exist.',
+      hint: 'Check the spelling of the username and try again.'
+    },
+    rateLimit: {
+      title: 'API limit reached',
+      body: 'The temporary request quota for GitHub was exceeded.',
+      hint: 'Set a personal GitHub token or retry in a few minutes.'
+    },
+    invalid: {
+      title: 'Invalid parameter',
+      hint: 'Check that the username or repository follows the GitHub format.'
+    },
+    fallback: {
+      title: 'GitCard Studio error',
+      body: 'Something went wrong while generating the card.',
+      hint: 'Check your input or try again later.'
+    }
+  },
+  es: {
+    notFound: {
+      title: 'Usuario no encontrado',
+      body: (user) =>
+        user
+          ? `No se encontró el usuario ${user} en GitHub.`
+          : 'El usuario de GitHub especificado no existe.',
+      hint: 'Verifica la ortografía del usuario e intenta de nuevo.'
+    },
+    rateLimit: {
+      title: 'Límite de API Alcanzado',
+      body: 'Se superó la cuota temporal de solicitudes a GitHub.',
+      hint: 'Configura un token personal de GitHub o reintenta en unos minutos.'
+    },
+    invalid: {
+      title: 'Parámetro Inválido',
+      hint: 'Verifica que el nombre de usuario o repositorio cumpla el formato de GitHub.'
+    },
+    fallback: {
+      title: 'Error en GitCard Studio',
+      body: 'Ocurrió un inconveniente al generar la tarjeta.',
+      hint: 'Verifica los datos ingresados o intenta más tarde.'
+    }
+  }
+};
+
 /**
  * Parses raw error messages (such as GitHub API 404/403 strings) into clean,
  * user-friendly localized messages without exposing internal API URLs.
+ * English is the default; Spanish is used for locale=es.
  */
 function parseErrorMessage(
   rawMessage: string,
@@ -17,6 +76,7 @@ function parseErrorMessage(
 ): { title: string; body: string; hint: string } {
   const msg = rawMessage.trim();
   const targetUser = options?.username ? `@${options.username}` : '';
+  const texts = ERROR_TEXTS[options?.locale?.toLowerCase() === 'es' ? 'es' : 'en'];
 
   // Case 1: GitHub API 404 (User or Repository Not Found)
   if (
@@ -25,30 +85,20 @@ function parseErrorMessage(
     msg.toLowerCase().includes('not found')
   ) {
     return {
-      title: 'Usuario no encontrado',
-      body: targetUser
-        ? `No se encontró el usuario ${targetUser} en GitHub.`
-        : 'El usuario de GitHub especificado no existe.',
-      hint: 'Verifica la ortografía del usuario e intenta de nuevo.'
+      title: texts.notFound.title,
+      body: texts.notFound.body(targetUser),
+      hint: texts.notFound.hint
     };
   }
 
   // Case 2: GitHub API 403 / Rate Limit Exceeded
   if (msg.includes('403') || msg.toLowerCase().includes('rate limit')) {
-    return {
-      title: 'Límite de API Alcanzado',
-      body: 'Se superó la cuota temporal de solicitudes a GitHub.',
-      hint: 'Configura un token personal de GitHub o reintenta en unos minutos.'
-    };
+    return { ...texts.rateLimit };
   }
 
   // Case 3: Invalid Username or Repository Parameter
   if (msg.toLowerCase().includes('inválido') || msg.toLowerCase().includes('invalid')) {
-    return {
-      title: 'Parámetro Inválido',
-      body: msg,
-      hint: 'Verifica que el nombre de usuario o repositorio cumpla el formato de GitHub.'
-    };
+    return { title: texts.invalid.title, body: msg, hint: texts.invalid.hint };
   }
 
   // Case 4: General fallback - clean raw internal URLs from error string
@@ -56,9 +106,9 @@ function parseErrorMessage(
   const cleanBody = (urlIdx !== -1 ? msg.slice(0, urlIdx) : msg).trim();
 
   return {
-    title: 'Error en GitCard Studio',
-    body: cleanBody || 'Ocurrió un inconveniente al generar la tarjeta.',
-    hint: 'Verifica los datos ingresados o intenta más tarde.'
+    title: texts.fallback.title,
+    body: cleanBody || texts.fallback.body,
+    hint: texts.fallback.hint
   };
 }
 

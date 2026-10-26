@@ -55,7 +55,7 @@ describe('security.ts tests', () => {
 
     const result = await validateTokenScopes('ghp_dangerous');
     expect(result.valid).toBe(false);
-    expect(result.reason).toContain('permisos de escritura o administración');
+    expect(result.reason).toContain('dangerous write or admin permissions');
   });
 
   it('should accept read-only metadata token', async () => {
@@ -104,7 +104,7 @@ describe('security.ts tests', () => {
 
     const result = await validateTokenScopes('ghp_haswrite');
     expect(result.valid).toBe(false);
-    expect(result.reason).toContain('permisos de creación/escritura');
+    expect(result.reason).toContain('create or write permissions');
   });
 
   describe('SVG attribute injection sanitization', () => {
