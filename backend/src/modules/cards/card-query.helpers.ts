@@ -124,3 +124,12 @@ export function extractCardWidth(query: Record<string, unknown>): string | undef
 
   return undefined;
 }
+
+/**
+ * Reads the requested card language from `locale` (or its alias `lang`).
+ * Returns undefined when none is given so renderers apply their default.
+ */
+export function extractLocale(query: Record<string, unknown>): string | undefined {
+  const value = query.locale ?? query.lang;
+  return typeof value === 'string' && value.trim() !== '' ? value.trim() : undefined;
+}

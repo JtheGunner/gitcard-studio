@@ -22,12 +22,14 @@ export class RegisterUserTokenUseCase {
     userAgent: string
   ): Promise<{ message: string }> {
     if (consentAccepted !== true) {
-      throw new Error('Debes aceptar los términos y condiciones de almacenamiento de datos.');
+      throw new Error('You must accept the data storage terms and conditions.');
     }
 
     const validation = await validateTokenScopes(token);
     if (!validation.valid) {
-      throw new Error(validation.reason || 'Token de GitHub inválido o con demasiados permisos.');
+      throw new Error(
+        validation.reason || 'Invalid GitHub token or token with too many permissions.'
+      );
     }
 
     const { encryptedToken, iv } = encryptToken(token);
@@ -48,7 +50,7 @@ export class RegisterUserTokenUseCase {
 
     return {
       message:
-        'Token registrado exitosamente. Tus estadísticas privadas ahora se incluirán en tus tarjetas.'
+        'Token registered successfully. Your private statistics will now be included on your cards.'
     };
   }
 }

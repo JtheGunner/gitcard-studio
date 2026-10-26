@@ -12,7 +12,7 @@ export type ReadmeLayout = 'vertical' | 'grid';
 export function generateSampleReadme(
   username: string,
   activeCards: CardItem[],
-  locale: string = 'es',
+  locale: string = 'en',
   layout: ReadmeLayout = 'vertical',
   generatorUrl?: string,
   linkCards: boolean = false

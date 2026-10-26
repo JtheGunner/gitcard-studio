@@ -12,7 +12,7 @@ export class ApiV1Controller {
       typeof rawUsername !== 'string' ||
       !GITHUB_USERNAME_REGEX.test(rawUsername.trim())
     ) {
-      throw new BadRequestException('Usuario de GitHub inválido');
+      throw new BadRequestException('Invalid GitHub username');
     }
 
     const username = rawUsername.trim();
@@ -21,7 +21,7 @@ export class ApiV1Controller {
       username,
       timestamp: new Date().toISOString(),
       format: 'json',
-      message: `Estadísticas agregadas para @${username} preparadas para consumir en portafolios web`
+      message: `Aggregated stats for @${username}, ready to use in web portfolios`
     };
   }
 }

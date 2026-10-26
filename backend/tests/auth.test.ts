@@ -42,7 +42,7 @@ describe('RegisterOAuthTokenUseCase', () => {
     });
 
     expect(result.username).toBe('octocat');
-    expect(result.message).toContain('vinculada exitosamente');
+    expect(result.message).toContain('linked successfully');
     expect(mockTokenRepo.saveToken).toHaveBeenCalledTimes(1);
     expect(mockGitHubRepo.clearCache).toHaveBeenCalledWith('octocat');
   });

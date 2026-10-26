@@ -89,12 +89,12 @@ const messages: Record<SupportedLocale, BackendMessages> = {
 
 /**
  * Resolves the supported locale from a raw locale string.
- * Falls back to 'es' if not recognized.
+ * Falls back to 'en' if not recognized.
  */
 export function resolveLocale(raw?: string): SupportedLocale {
   const normalized = typeof raw === 'string' ? raw.toLowerCase().trim() : '';
-  if (normalized === 'en') return 'en';
-  return 'es';
+  if (normalized === 'es') return 'es';
+  return 'en';
 }
 
 /**

@@ -4,13 +4,13 @@ export const BADGE_LABEL_REGEX = /^[a-z\d\s\-_.:/]{1,50}$/i;
 
 export function validateUsername(username: string): void {
   if (!username || typeof username !== 'string' || !GITHUB_USERNAME_REGEX.test(username)) {
-    throw new Error('Usuario de GitHub inválido');
+    throw new Error('Invalid GitHub username');
   }
 }
 
 export function validateRepo(repo: string): void {
   if (!repo || typeof repo !== 'string' || !GITHUB_REPO_REGEX.test(repo)) {
-    throw new Error('Repositorio de GitHub inválido');
+    throw new Error('Invalid GitHub repository');
   }
 }
 

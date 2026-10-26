@@ -591,7 +591,7 @@ import Footer from '@/components/Footer.astro';
   let currentUsername = '';
   let currentRepo = '';
   let currentCardWidth = ''; // empty = default 495px
-  let currentLocale = 'es';
+  let currentLocale = 'en';
   let currentFormat = 'svg';
   let currentReadmeLayout: 'vertical' | 'grid' = 'vertical';
   let currentLinkStyle: 'linked' | 'raw' = 'linked';
@@ -874,7 +874,7 @@ import Footer from '@/components/Footer.astro';
     if (currentTheme) {
       newUrl.searchParams.set('theme', currentTheme);
     }
-    if (currentLocale && currentLocale !== 'es') {
+    if (currentLocale && currentLocale !== 'en') {
       newUrl.searchParams.set('locale', currentLocale);
     }
     window.history.pushState({}, '', newUrl.toString());

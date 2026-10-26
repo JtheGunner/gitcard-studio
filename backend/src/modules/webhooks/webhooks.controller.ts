@@ -36,7 +36,7 @@ export class WebhooksController {
         .digest('hex')}`;
 
       if (!crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSignature))) {
-        throw new ForbiddenException('Firma HMAC de GitHub inválida');
+        throw new ForbiddenException('Invalid GitHub HMAC signature');
       }
     }
 
@@ -45,10 +45,10 @@ export class WebhooksController {
       if (username && typeof username === 'string') {
         await this.cacheAdapter.flushPattern(username);
         logger.info(`GitHub webhook push event: invalidated cache for ${username}`, { username });
-        return { message: `Caché invalidada para ${username}`, invalidated: true };
+        return { message: `Cache invalidated for ${username}`, invalidated: true };
       }
     }
 
-    return { message: 'Evento de webhook procesado', invalidated: false };
+    return { message: 'Webhook event processed', invalidated: false };
   }
 }

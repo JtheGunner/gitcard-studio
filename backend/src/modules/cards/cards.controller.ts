@@ -24,7 +24,7 @@ import {
 import { HitContext } from '@/domain/entities/Metrics';
 import { logger } from '@/infrastructure/logging/logger';
 import { sanitizeColor } from '@/adapters/presenters/theme';
-import { extractThemeOverrides, extractCardWidth } from './card-query.helpers';
+import { extractThemeOverrides, extractCardWidth, extractLocale } from './card-query.helpers';
 import { escapeXml } from '@/utils/escape';
 
 import { IGitHubRepository } from '@/domain/repositories/IGitHubRepository';
@@ -78,9 +78,9 @@ export class CardsController {
       res.header('Cache-Control', 'no-cache, no-store, must-revalidate').status(400);
       const safeUser = typeof username === 'string' ? username : undefined;
       return renderErrorCard(
-        'Usuario de GitHub inválido',
+        'Invalid GitHub username',
         typeof theme === 'string' ? theme : undefined,
-        { username: safeUser }
+        { username: safeUser, locale: extractLocale(query) }
       );
     }
 
@@ -135,7 +135,7 @@ export class CardsController {
         .status(200);
       return svg;
     } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'Error al obtener datos';
+      const message = error instanceof Error ? error.message : 'Failed to fetch data';
       logger.error(`Error rendering card ${cardName} for user ${username}`, {
         cardName,
         username,
@@ -146,7 +146,10 @@ export class CardsController {
         .header('X-Content-Type-Options', 'nosniff')
         .header('Cache-Control', 'no-cache, no-store, must-revalidate')
         .status(500);
-      return renderErrorCard(message, typeof theme === 'string' ? theme : undefined, { username });
+      return renderErrorCard(message, typeof theme === 'string' ? theme : undefined, {
+        username,
+        locale: extractLocale(query)
+      });
     }
   }
 
@@ -190,7 +193,9 @@ export class CardsController {
 
     if (repo && (typeof repo !== 'string' || !GITHUB_REPO_REGEX.test(repo))) {
       res.status(400);
-      return renderErrorCard('Repositorio de GitHub inválido');
+      return renderErrorCard('Invalid GitHub repository', undefined, {
+        locale: extractLocale(query)
+      });
     }
 
     return this.handleCardRequest(query, userAgent, referer, ip, res, 'Repo', (u, t, o, h) =>
@@ -253,7 +258,9 @@ export class CardsController {
       res
         .header('Cache-Control', 'max-age=0, s-maxage=0, no-cache, no-store, must-revalidate')
         .status(400);
-      return renderErrorCard('Usuario de GitHub inválido');
+      return renderErrorCard('Invalid GitHub username', undefined, {
+        locale: extractLocale(query)
+      });
     }
 
     try {
@@ -286,14 +293,14 @@ export class CardsController {
 
       return svg;
     } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'Error al obtener visitas';
+      const message = error instanceof Error ? error.message : 'Failed to fetch views';
       logger.error(`Error in getProfileViews for user ${username}`, { username, error });
       res
         .header('Content-Type', 'image/svg+xml; charset=utf-8')
         .header('X-Content-Type-Options', 'nosniff')
         .header('Cache-Control', 'max-age=0, s-maxage=0, no-cache, no-store, must-revalidate')
         .status(500);
-      return renderErrorCard(message);
+      return renderErrorCard(message, undefined, { locale: extractLocale(query) });
     }
   }
 
@@ -476,7 +483,7 @@ export class CardsController {
 
       return renderBadgeSVG({ label: safeLabel, value: safeValue, valueColor: safeColor });
     } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'Error al obtener insignia';
+      const message = error instanceof Error ? error.message : 'Failed to fetch badge';
       logger.error(`Error in getBadge for user ${username}: ${message}`, { username, error });
       res
         .header('Content-Type', 'image/svg+xml; charset=utf-8')

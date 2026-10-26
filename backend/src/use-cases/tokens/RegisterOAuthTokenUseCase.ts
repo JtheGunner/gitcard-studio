@@ -53,7 +53,7 @@ export class RegisterOAuthTokenUseCase {
 
     return {
       message:
-        'Cuenta de GitHub vinculada exitosamente. Tus métricas públicas y privadas se actualizarán en tus tarjetas.',
+        'GitHub account linked successfully. Your public and private metrics will be updated on your cards.',
       username
     };
   }

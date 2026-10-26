@@ -72,7 +72,7 @@ export class MetricsController {
       return await this.metricsRepo.getRendersHistory(days);
     } catch (error: unknown) {
       logger.error('Error in getRendersHistory endpoint', { error });
-      throw new InternalServerErrorException(getMessages('es').metricsHistoryError);
+      throw new InternalServerErrorException(getMessages('en').metricsHistoryError);
     }
   }
 
@@ -87,7 +87,7 @@ export class MetricsController {
       return await this.metricsRepo.getBreakdownMetrics();
     } catch (error: unknown) {
       logger.error('Error in getBreakdownMetrics endpoint', { error });
-      throw new InternalServerErrorException('Error al obtener desglose de métricas');
+      throw new InternalServerErrorException('Failed to fetch the metrics breakdown');
     }
   }
 
@@ -102,7 +102,7 @@ export class MetricsController {
       return await this.metricsRepo.getAllUserMetrics();
     } catch (error: unknown) {
       logger.error('Error in getUserMetrics endpoint', { error });
-      throw new InternalServerErrorException(getMessages('es').userMetricsError);
+      throw new InternalServerErrorException(getMessages('en').userMetricsError);
     }
   }
 
@@ -112,7 +112,7 @@ export class MetricsController {
       return await this.metricsRepo.getUniqueUsersCount();
     } catch (error: unknown) {
       logger.error('Error in getUniqueUsersCount endpoint', { error });
-      throw new InternalServerErrorException(getMessages('es').userCountError);
+      throw new InternalServerErrorException(getMessages('en').userCountError);
     }
   }
 
@@ -139,7 +139,7 @@ export class MetricsController {
       return await this.verifyUserReadmeUseCase.execute(body.username, forceRefresh);
     } catch (error: unknown) {
       logger.error('Error in verifyUserReadme endpoint', { username: body.username, error });
-      throw new InternalServerErrorException('Error al verificar el README del usuario');
+      throw new InternalServerErrorException('Failed to verify the user README');
     }
   }
 
@@ -163,7 +163,7 @@ export class MetricsController {
       });
     } catch (error: unknown) {
       logger.error('Error in verifyReadmesBatch endpoint', { error });
-      throw new InternalServerErrorException('Error al auditar los READMEs de los usuarios');
+      throw new InternalServerErrorException('Failed to audit the user READMEs');
     }
   }
 }

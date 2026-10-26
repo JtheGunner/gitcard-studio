@@ -10,12 +10,12 @@ export type { SupportedLocale, TranslationKey };
  */
 export function t(
   key: TranslationKey,
-  locale: string = 'es',
+  locale: string = 'en',
   params?: Record<string, string>
 ): string {
-  const lang = (locale in TRANSLATIONS ? locale : 'es') as SupportedLocale;
+  const lang = (locale in TRANSLATIONS ? locale : 'en') as SupportedLocale;
   const dict = TRANSLATIONS[lang];
-  let text: string = dict[key] || TRANSLATIONS.es[key] || key;
+  let text: string = dict[key] || TRANSLATIONS.en[key] || key;
 
   if (params) {
     Object.entries(params).forEach(([paramKey, paramVal]) => {
@@ -29,8 +29,8 @@ export function t(
 /**
  * Updates DOM elements containing `[data-i18n]` and `[data-i18n-placeholder]`.
  */
-export function updateDomTranslations(locale: string = 'es'): void {
-  const lang = (locale in TRANSLATIONS ? locale : 'es') as SupportedLocale;
+export function updateDomTranslations(locale: string = 'en'): void {
+  const lang = (locale in TRANSLATIONS ? locale : 'en') as SupportedLocale;
   const dict = TRANSLATIONS[lang];
 
   if (typeof document !== 'undefined' && document.documentElement) {

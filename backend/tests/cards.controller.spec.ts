@@ -97,7 +97,7 @@ describe('CardsController', () => {
     );
 
     expect(mockRes.status).toHaveBeenCalledWith(400);
-    expect(result).toContain('Usuario de GitHub inválido');
+    expect(result).toContain('Invalid GitHub username');
   });
 
   it('should clear cache when cache=false parameter is passed', async () => {
