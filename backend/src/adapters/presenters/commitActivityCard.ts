@@ -49,7 +49,7 @@ function buildHeatmapSvg(
 ): string {
   const startX = 45;
   const startY = 80;
-  const cellWidth = 16;
+  const cellWidth = 15;
   const cellHeight = 12;
   const cellGap = 3;
 
