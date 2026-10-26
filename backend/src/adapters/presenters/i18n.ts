@@ -381,9 +381,9 @@ export const TRANSLATIONS: Record<'es' | 'en' | 'fr' | 'de' | 'pt' | 'ja' | 'zh'
   };
 
 export function getTranslations(locale?: string): TranslationSet {
-  const normalized = (locale || 'es').toLowerCase().trim();
+  const normalized = (locale || 'en').toLowerCase().trim();
   if (normalized in TRANSLATIONS) {
     return TRANSLATIONS[normalized as keyof typeof TRANSLATIONS];
   }
-  return TRANSLATIONS.es;
+  return TRANSLATIONS.en;
 }

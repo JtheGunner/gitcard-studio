@@ -143,7 +143,7 @@ describe('renderer tests', () => {
       collaborationIndex: 8
     };
 
-    const svg = renderRankCard(mockStats, 'dark');
+    const svg = renderRankCard(mockStats, 'dark', { locale: 'es' });
 
     expect(svg).toContain('<svg');
     expect(svg).toContain('</svg>');

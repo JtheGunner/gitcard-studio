@@ -55,8 +55,8 @@ describe('i18n Cards Translations', () => {
     }
   ];
 
-  it('should render stats card in Spanish by default', async () => {
-    const svg = await renderStatsCard(mockStats, 'dark');
+  it('should render stats card in Spanish when locale=es is specified', async () => {
+    const svg = await renderStatsCard(mockStats, 'dark', { locale: 'es' });
     expect(svg).toContain('Estrellas:');
     expect(svg).toContain('Seguidores:');
     expect(svg).not.toContain('Stars:');
@@ -71,8 +71,8 @@ describe('i18n Cards Translations', () => {
     expect(svg).not.toContain('Seguidores:');
   });
 
-  it('should render languages card in Spanish by default and English when locale=en', () => {
-    const svgEs = renderLanguagesCard(mockLanguages, 'dark', {}, 'testuser');
+  it('should render languages card in Spanish when locale=es and English when locale=en', () => {
+    const svgEs = renderLanguagesCard(mockLanguages, 'dark', { locale: 'es' }, 'testuser');
     expect(svgEs).toContain('Lenguajes Más Usados');
 
     const svgEn = renderLanguagesCard(mockLanguages, 'dark', { locale: 'en' }, 'testuser');
@@ -81,7 +81,7 @@ describe('i18n Cards Translations', () => {
   });
 
   it('should render streak card with localized labels based on locale', () => {
-    const svgEs = renderStreakCard(mockStreak, 'dark', {});
+    const svgEs = renderStreakCard(mockStreak, 'dark', { locale: 'es' });
     expect(svgEs).toContain('Total Contribuciones');
     expect(svgEs).toContain('Racha Actual');
     expect(svgEs).toContain('Racha Máxima');
@@ -93,7 +93,7 @@ describe('i18n Cards Translations', () => {
   });
 
   it('should render rank card with localized descriptions based on locale', () => {
-    const svgEs = renderRankCard(mockStats, 'dark', {});
+    const svgEs = renderRankCard(mockStats, 'dark', { locale: 'es' });
     expect(svgEs).toContain('Rango de Desarrollador');
     expect(svgEs).toContain('Índice de Colaboración');
     expect(svgEs).toContain('Desarrollador Legendario / Contribuidor Elite');
@@ -105,11 +105,27 @@ describe('i18n Cards Translations', () => {
   });
 
   it('should render top repos card with localized title based on locale', () => {
-    const svgEs = renderTopReposCard(mockRepos, 'dark', {});
+    const svgEs = renderTopReposCard(mockRepos, 'dark', { locale: 'es' });
     expect(svgEs).toContain('Top Repositorios');
 
     const svgEn = renderTopReposCard(mockRepos, 'dark', { locale: 'en' });
     expect(svgEn).toContain('Top Repositories');
+  });
+
+  it('should render every card in English when no locale is given', async () => {
+    expect(await renderStatsCard(mockStats, 'dark')).toContain('Followers:');
+    expect(renderLanguagesCard(mockLanguages, 'dark', {}, 'testuser')).toContain(
+      'Most Used Languages'
+    );
+    expect(renderStreakCard(mockStreak, 'dark', {})).toContain('Total Contributions');
+    expect(renderRankCard(mockStats, 'dark', {})).toContain('Developer Rank');
+    expect(renderTopReposCard(mockRepos, 'dark', {})).toContain('Top Repositories');
+  });
+
+  it('should fall back to English for an unknown locale', () => {
+    expect(renderLanguagesCard(mockLanguages, 'dark', { locale: 'xx' }, 'testuser')).toContain(
+      'Most Used Languages'
+    );
   });
 
   it('should support new Phase 4 locales fr, de, pt, ja, zh', () => {

@@ -642,7 +642,7 @@ export class ApiGitHubRepository implements IGitHubRepository {
 
       if (otherSize > 0 && otherPercentage > 0) {
         topLanguages.push({
-          name: 'Otros',
+          name: 'Other',
           count: otherCount,
           size: otherSize,
           percentage: otherPercentage,

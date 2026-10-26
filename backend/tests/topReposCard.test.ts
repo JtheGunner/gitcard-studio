@@ -48,7 +48,7 @@ const mockRepos: RepoStats[] = [
 
 describe('topReposCard renderer', () => {
   it('should render valid SVG with correct structure', () => {
-    const svg = renderTopReposCard(mockRepos, 'dark');
+    const svg = renderTopReposCard(mockRepos, 'dark', { locale: 'es' });
     expect(svg).toContain('<svg');
     expect(svg).toContain('</svg>');
     expect(svg).toContain('Top Repositorios');
@@ -118,7 +118,7 @@ describe('topReposCard renderer', () => {
   it('should render new themes (catppuccin_mocha, nord, cyberpunk, gruvbox, synthwave)', () => {
     const newThemes = ['catppuccin_mocha', 'nord', 'cyberpunk', 'gruvbox', 'synthwave'];
     for (const theme of newThemes) {
-      const svg = renderTopReposCard(mockRepos, theme);
+      const svg = renderTopReposCard(mockRepos, theme, { locale: 'es' });
       expect(svg).toContain('<svg');
       expect(svg).toContain('Top Repositorios');
       expect(svg).toContain(THEMES[theme as keyof typeof THEMES].bg);

@@ -43,7 +43,7 @@ export function renderTrophiesCard(
 ): string {
   const theme = getTheme(themeName, overrides);
   const t = getTranslations(overrides?.locale);
-  const isEn = overrides?.locale === 'en';
+  const isEn = overrides?.locale !== 'es';
 
   // 1. Commits Trophy
   const { rank: commitsRank, title: commitsTitle } = getTrophyRankAndTitle(
@@ -81,7 +81,7 @@ export function renderTrophiesCard(
   );
 
   // 6. MultiLanguage Trophy
-  const validLanguages = languages.filter((lang) => lang.name !== 'Otros');
+  const validLanguages = languages.filter((lang) => lang.name !== 'Other');
   const { rank: langRank, title: langTitle } = getTrophyRankAndTitle(
     validLanguages.length,
     { S: 5, A: 4, B: 3 },
